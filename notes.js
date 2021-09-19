@@ -1,7 +1,5 @@
 const fs = require('fs')
 const chalk = require('chalk')
-const { convertCSVToArray } = require('convert-csv-to-array')
-const converter = require('convert-csv-to-array')
 
 const addNote = (title, body, tags) => {
     const notes = loadNotes()
