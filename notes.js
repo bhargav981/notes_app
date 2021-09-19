@@ -81,7 +81,7 @@ const addTag = (title, tags) => {
             notesToKeep.push({
                 title: title,
                 body: note.body,
-                tags: tags
+                tags: tags.split(",")
             })
             saveNotes(notesToKeep)
             console.log(chalk.green.inverse('New Note Tag added'))
@@ -119,12 +119,12 @@ const updTag = (title, tags) => {
     const note = notes.find((note) => note.title === title)
     const notesToKeep = notes.filter((note) => note.title !== title)
     if (note) {
-        const nt = note.tags
         if(note.tags !== undefined){
+            const nt = note.tags + ',' + tags
             notesToKeep.push({
                 title: title,
                 body: note.body,
-                tags: nt.concat(tags)
+                tags: nt.split(",")
             })
             saveNotes(notesToKeep)
             console.log(chalk.green.inverse('Note Tag updated'))
