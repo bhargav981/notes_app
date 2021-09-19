@@ -1,7 +1,5 @@
 const chalk = require('chalk')
 const yargs = require('yargs')
-const { convertCSVToArray } = require('convert-csv-to-array')
-const converter = require('convert-csv-to-array')
 const notes = require('./notes.js')
 
 // Customize yargs version
