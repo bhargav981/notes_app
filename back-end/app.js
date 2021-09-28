@@ -1,135 +1,49 @@
-const chalk = require('chalk')
-const yargs = require('yargs')
-const notes = require('./notes.js')
+const express = require("express");
+const app = express();
+const connection = require('./db')
+const cors = require('cors')
+const port = 5000;
 
-// Customize yargs version
-yargs.version('1.1.0')
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// Create add command
-yargs.command({
-    command: 'add',
-    describe: 'Add a new note',
-    builder: {
-        title: {
-            describe: 'Note title',
-            demandOption: true,
-            type: 'string'
-        },
-        body: {
-            describe: 'Note body',
-            demandOption: true,
-            type: 'string'
-        },
-        tags: {
-            describe: 'Note tag',
-            demandOption: false,
-            type: 'string'
-        }
-    },
-    
-    handler(argv) {
-        notes.addNote(argv.title, argv.body, argv.tags)
-    }
+app.get('/notes', (req, res) => {
+  // try {
+  //   const rows = await connection.query('SELECT * from notes');
+  //   res.send(rows);
+  //   await connection.end();
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  const sql = "SELECT * from notes";
+    connection.query(sql, function (err, notes) {
+        if (err) throw err;
+        res.send(notes);
+      });
 })
 
-// Create remove command
-yargs.command({
-    command: 'remove',
-    describe: 'Remove a note',
-    builder: {
-        title: {
-            describe: 'Note title',
-            demandOption: true,
-            type: 'string'
-        }
-    },
-    handler(argv) {
-        notes.removeNote(argv.title)
-    }
+app.post('/addNotes',(req,res)=>{
+  console.log(req)
+  let title = req.body.title;
+  let body = req.body.body;
+  let tags = req.body.tags;
+  let sql = "INSERT INTO notes(title,body,tags) VALUES('" + title + "' , '" + body + "' , '" + tags + "')";
+  connection.query(sql, function (err, notes) {
+        if (err) throw err;
+        res.send(notes);
+      });
 })
 
-// Create list command
-yargs.command({
-    command: 'list',
-    describe: 'List your notes',
-    handler() {
-        notes.listNotes()
-    }
-})
+app.delete("/delete/:title", (req, res) => {
+  let sql = `DELETE FROM notes WHERE title = '${req.params.title}'`;
+  connection.query(sql, (err, results, fields) => {
+    if (err) throw err;
+    res.send(results);
+    console.log("Deleted Row(s):", results.affectedRows);
+  });
+});
 
-// Create read command
-yargs.command({
-    command: 'read',
-    describe: 'Read a note',
-    builder: {
-        title: {
-            describe: 'Note title',
-            demandOption: true,
-            type: 'string'
-        }
-    },
-    
-    handler(argv) {
-        notes.readNote(argv.title)
-    }
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
 })
-
-// Create addTag command
-yargs.command({
-    command: 'at',
-    describe: 'add a new tag to existing note',
-    builder: {
-        title: {
-            describe: 'Note title',
-            demandOption: true,
-            type: 'string'
-        },
-        tags: {
-            describe: 'Note tag',
-            demandOption: true,
-            type: 'string'
-        }
-    },
-    handler(argv) {
-        notes.addTag(argv.title, argv.tags)
-    }
-})
-
-// Create removeTag command
-yargs.command({
-    command: 'rt',
-    describe: 'remove tag in a note',
-    builder: {
-        title: {
-            describe: 'Note title',
-            demandOption: true,
-            type: 'string'
-        }
-    },
-    handler(argv) {
-        notes.remTag(argv.title)
-    }
-})
-
-// Create updateTag command
-yargs.command({
-    command: 'ut',
-    describe: 'add a new tag to existing note',
-    builder: {
-        title: {
-            describe: 'Note title',
-            demandOption: true,
-            type: 'string'
-        },
-        tags: {
-            describe: 'Note tag',
-            demandOption: true,
-            type: 'string'
-        }
-    },
-    handler(argv) {
-        notes.updTag(argv.title, argv.tags)
-    }
-})
-
-yargs.parse()

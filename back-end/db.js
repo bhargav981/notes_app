@@ -5,5 +5,5 @@ let connection = mysql.createConnection({
     password: 'jm.10765',
     database: 'notes'
 });
-
+//msql2 giving error
 module.exports = connection;
