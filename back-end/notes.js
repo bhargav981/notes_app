@@ -8,7 +8,7 @@ const addNote = (title, body, tags) => {
     connection.query(sql);
 
     console.log(chalk.green.inverse('New note added!'))
-    //connection.end();
+    connection.end();
     // const notes = loadNotes()
     // const duplicateNote = notes.find((note) => note.title === title)
 
@@ -55,7 +55,7 @@ const readNote = (title) => {
         }
       });
 
-    //connection.end();
+    connection.end();
 }
 
 const removeNote = (title) => {
@@ -74,10 +74,10 @@ const removeNote = (title) => {
         console.log(results.affectedRows, 'note removed!');
       });
 
-    //connection.end();
+    connection.end();
 }
 
-const listNotes = () => {
+const listNotes = async() => {
     // const notes = loadNotes()
 
     // console.log(chalk.inverse('Your notes'))
@@ -85,17 +85,17 @@ const listNotes = () => {
     // notes.forEach((note) => {
     //     console.log(note.title)
     // })
-    let sql = "SELECT * from notes";
-    connection.query(sql, function (err, notes, fields) {
-        if (err) throw err;
-        notes.forEach((note) => {
-            console.log(chalk.inverse('Your notes'))
-            console.log(note.title, note.body, note.tags)})
-      });
-
-    //connection.end();
+    // let sql = "SELECT * from notes";
+    // connection.query(sql, function (err, notes, fields) {
+    //     if (err) throw err;
+    //     notes.forEach((note) => {
+    //         console.log(chalk.inverse('Your notes'))
+    //         console.log(note.title, note.body, note.tags)})
+    //   });
+    const [rows, fields] = await connection.query('SELECT * from notes');
+    console.log(rows)
+    await connection.end();
 }
-
 
 const addTag = async (title, tags) => {
     let uptags
@@ -118,9 +118,8 @@ const addTag = async (title, tags) => {
         console.log(results)
       });
       });
-    //connection.end();
+    connection.end();
 }
-
 const remTag = (title) => {
     const notes = loadNotes()
     const note = notes.find((note) => note.title === title)
