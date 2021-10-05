@@ -1,0 +1,44 @@
+.yournote, .addNote{
+    padding: 5px;
+    display: flex;
+    border-radius: 5px;
+}
+.yournote{
+    border-style: outset;
+    border-color: darkgrey;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.element{
+    display: block;
+}
+.addNote{
+    justify-content: center;
+}
+.titles{
+    display: flex;
+    justify-content: center;
+}
+.addNote label{
+    display: block;
+    font-size: 20px;
+    text-align: center;
+}
+.addNote input{
+    display: flex;
+}
+.clibox, .clidel{ 
+    color: black;
+    border-radius: 2px;
+}
+.clibox:hover {
+    background-color: green; 
+    color: white;
+    box-shadow:  0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.clidel:hover {
+    background-color: red; 
+    color: white;
+    box-shadow:  0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}

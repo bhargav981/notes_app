@@ -44,6 +44,17 @@ app.delete("/delete/:title", (req, res) => {
   });
 });
 
+app.put("/update/:title", (req,res) => { 
+  let body = req.body.body;
+  let tags = req.body.tags;
+  let sql = `UPDATE notes SET body = ?, tags = ? WHERE title = '${req.params.title}'`;
+    connection.query(sql, [body, tags], (err, results, fields) => {
+        if (err) throw err;
+        res.send(results);
+        console.log("Updated Row(s):", results.affectedRows);
+      });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
