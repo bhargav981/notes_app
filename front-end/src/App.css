@@ -13,8 +13,20 @@
 .element{
     display: block;
 }
+.element2{
+    display: flex;
+    justify-content: space-evenly;
+}
+.labe{
+    display: flex;
+}
+.box {
+    display: flex;
+    border: 1px solid black;
+}
 .addNote{
     justify-content: center;
+    height: 100%;
 }
 .titles{
     display: flex;
@@ -27,6 +39,31 @@
 }
 .addNote input{
     display: flex;
+}
+.required{
+    display: flex;
+    justify-content: end;
+}
+.normal{
+    display: flex;
+    justify-content:space-between;
+}
+.required label, .normal label  {
+    display: block;
+    font-size: 15px;
+    text-align: center;
+}
+.normal label::after{
+    content: '  ';
+}
+.required label::after {
+    color: #e32;
+    content: ' *';
+    display: inline;
+}
+.form-button{
+    display: flex;
+    justify-content: center;
 }
 .clibox, .clidel{ 
     color: black;
@@ -41,4 +78,10 @@
     background-color: red; 
     color: white;
     box-shadow:  0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.uptag{
+    display: contents;
+}
+.deltag{
+
 }

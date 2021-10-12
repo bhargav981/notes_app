@@ -72,30 +72,39 @@ class App extends React.Component{
   }
 
   render(){
-    const renderNotes = this.state.notes.map(note => 
-    <div className="yournote">
-        <div className="mynote">
-          <div className="element" >
-            Title: <bt/>
-            {note.title}
-          </div>
-          <div className="element">
-            Body: <bt/>
-            {note.body}
-          </div>
-          <div className="element">
-            Tags: <bt/>
-            {note.tags}
-          </div>
-        </div>
-        <button className="clibox" onClick={() => this.nextPath(`/update/${note.title}`)}>
-          Edit
-        </button>
-        <button className="clidel" onClick={() => this.deleteNote(note.title)}>
-          Delete
-        </button>
-    </div>
-    )
+    const renderNotes = this.state.notes.map(note => {
+      let displayTags
+      if (note.tags === null ){
+        displayTags = <div className="box"><label> No Tags </label> </div>
+      }else {
+        displayTags = note.tags.split(',').map(tag => <div className="box"> {tag} </div>)
+      }
+      return  <div className="yournote">
+                <div className="mynote">
+                  <div className="element" >
+                    <label>Title: </label>
+                    {note.title}
+                  </div>
+                  <div className="element">
+                    <label>Body: </label>
+                    {note.body}
+                  </div>
+                  <div className="element2">
+                    <div className="labe">
+                      <label>Tags: </label>
+                    </div>
+                    {displayTags}
+                  </div>
+                </div>
+                <button className="clibox" onClick={() => this.nextPath(`/update/${note.title}`)}>
+                  Edit
+                </button>
+                <button className="clidel" onClick={() => this.deleteNote(note.title)}>
+                  Delete
+                </button>
+              </div>
+      
+    })
     return(
       <div>
         <div className="titles">
@@ -106,39 +115,52 @@ class App extends React.Component{
         </div>
         <br/>
         <div className="addNote">
-          <form onSubmit={this.addNote}>
-            <label> Add Notes </label>
+          <form onSubmit={this.addNote} className="newNote">
+            <div>
+              <label> Add Notes </label>
+            </div>
             <br/>
-            <input
-              placeholder="Note Title"
-              type="text"
-              name="title"
-              value={this.state.title}
-              onChange={this.handleInputChange}
+            <div className="required">
+              <label>Title: </label>
+              <input
+                placeholder="Note Title"
+                type="text"
+                name="title"
+                value={this.state.title}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <br/>
+            <div className="required">
+              <label>Body: </label>
+              <input
+                placeholder="Note Body"
+                type="text"
+                name="body"
+                value={this.state.body}
+                onChange={this.handleInputChange}
             />
+            </div>
             <br/>
-            <input
-              placeholder="Note Body"
-              type="text"
-              name="body"
-              value={this.state.body}
-              onChange={this.handleInputChange} 
-            />
+            <div className="normal">
+              <label>Tags:</label>
+              <input
+                placeholder="Provide CSV"
+                type="text"
+                name="tags"
+                value={this.state.tags}
+                onChange={this.handleInputChange}
+              />
+            </div>
             <br/>
-            <input
-              placeholder="Note Tags"
-              type="text"
-              name="tags"
-              value={this.state.tags}
-              onChange={this.handleInputChange}
-            />
-            <br/>
-            <button 
-              className="clibox"
-              type="submit"
-              onClick={this.addNote}> 
-              Submit
-            </button>
+            <div className="form-button">
+              <button 
+                className="clibox"
+                type="submit"
+                onClick={this.addNote}> 
+                Submit
+              </button>
+            </div>
           </form>
         </div>
       </div>
