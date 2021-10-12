@@ -23,6 +23,14 @@ app.get('/notes', (req, res) => {
       });
 })
 
+app.get('/info/:title', (req, res) => {
+  const sql = `SELECT body, tags FROM notes WHERE title='${req.params.title}'`;
+    connection.query(sql, function (err, results) {
+        if (err) throw err;
+        res.send(results);
+      });
+})
+
 app.post('/addNotes',(req,res)=>{
   console.log(req)
   let title = req.body.title;
@@ -32,6 +40,7 @@ app.post('/addNotes',(req,res)=>{
   connection.query(sql, function (err, notes) {
         if (err) throw err;
         res.send(notes);
+        console.log("Added Row(s):", notes.affectedRows);
       });
 })
 
